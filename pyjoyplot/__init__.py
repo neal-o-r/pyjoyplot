@@ -113,7 +113,10 @@ class _pyjoyplotter():
 		plt.xlabel(self.x)
 		ax.set_yticks([self.offset*i for i in range(self.n)[::-1]])
 		ax.set_yticklabels(self.categories)
+
+		return ax
 	
+
 	def _plot(self):
 		
 		if self.kind == 'line':
