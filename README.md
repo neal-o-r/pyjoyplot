@@ -25,4 +25,6 @@ Install from PyPI, ```pip install pyjoyplot```
 		bins (int/list): bins if using hist. 
 				 int for all hists to have same bins
 				 else list of bin numbers	      -- default = 10
+
+		return : ax object
 ```
