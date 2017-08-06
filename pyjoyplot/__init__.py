@@ -45,6 +45,8 @@ class _pyjoyplotter():
 		fig = plt.figure()
 		ax = plt.axes(frameon=False)
 
+		self.data = self.data.sort_values(by=self.x)
+
 		for i, c in enumerate(self.categories):
 		
 			i = self.n - (i + 1)
