@@ -1,7 +1,8 @@
 # pyjoy
 
 A thin wrapper around Matplotlib for conveniently making '[joy plots](https://github.com/clauswilke/ggjoy)'. 
-![joyplot](activities.png)
+![lineplot](activities.png)
+![histplot](iris.png)
 
 # Usage
 
