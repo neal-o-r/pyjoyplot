@@ -60,7 +60,7 @@ class _pyjoyplotter():
 			y_d += i * self.offset
 			y_min = np.tile(np.nanmin(y_d), (len(y_d)))
 		
-			col = self.colours[i]
+			col = self.colours[i % self.n_c]
 
 			plt.plot(x_d, y_d, 
 					color=col, 
