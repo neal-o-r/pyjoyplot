@@ -10,8 +10,10 @@ class _pyjoyplotter():
 		' initialise class, check args'
 		assert (kind == 'line') or (kind == 'hist')
 		assert type(data) == pd.core.frame.DataFrame 
-		assert (x in data) and (hue in data)	
-		if kind == 'line': assert (y in data)		
+		assert (x in data) and (hue in data), \
+				'x and hue must be columns in dataframe'
+		if kind == 'line': assert (y in data), \
+				'y must be column in dataframe for line plot'
 		
 		self.data = data
 		self.x = x
@@ -98,11 +100,12 @@ class _pyjoyplotter():
 				self.data[self.hue] == c]
 
 			x_d = df.loc[df[self.hue] == c, self.x].values
+			x_d = x_d[~np.isnan(x_d)]
 
-			col = self.colours[i]
+			col = self.colours[i % self.n_c]
 			hist = np.histogram(x_d, bins=self.bins[i])
 			
-			new_hist = (hist[0] / hist[0].max(),
+			new_hist = (hist[0] / np.nanmax(hist[0]),
 					hist[1])
 
 			width = (new_hist[1] - np.roll(new_hist[1], 1))[1:]			
