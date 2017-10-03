@@ -6,7 +6,7 @@ import numpy as np
 class _pyjoyplotter():
 
 	def __init__(self, data=None, x=None, y=None, hue=None, kind=None,
-		offset=0.75, cmap='Dark2', smooth=1, order=None, bins=None):
+		offset=0.75, cmap='Dark2', smooth=1, order=None, bins=None, weights=None):
 		' initialise class, check args'
 		assert (kind == 'line') or (kind == 'hist')
 		assert type(data) == pd.core.frame.DataFrame 
@@ -19,7 +19,7 @@ class _pyjoyplotter():
 		self.x = x
 		self.y = y
 		self.hue = hue
-		self.categories = set(data[hue]) if order == None else order
+		self.categories = list(set(data[hue])) if order == None else order
 		self.n = len(self.categories)
 		self.offset = offset
 		self.colours = self._get_colours(cmap)
@@ -27,6 +27,7 @@ class _pyjoyplotter():
 		self.smooth = smooth
 		self.kind = kind
 		self.bins = bins
+		self.weights = weights
 
 	
 	def _get_colours(self, cmap):
@@ -91,7 +92,12 @@ class _pyjoyplotter():
 		ax = plt.axes(frameon=False)
 		if type(self.bins) != list:
 			self.bins = self.n * [self.bins]
-			
+		else:
+			self.bins = list(reversed(self.bins))
+		if type(self.weights) != list:
+			self.weights = self.n * [self.weights]
+		else:
+			self.weights = list(reversed(self.weights))
 		
 		for i, c in enumerate(self.categories):
 		
@@ -103,7 +109,10 @@ class _pyjoyplotter():
 			x_d = x_d[~np.isnan(x_d)]
 
 			col = self.colours[i % self.n_c]
-			hist = np.histogram(x_d, bins=self.bins[i])
+			if self.weights[i]:
+				hist = np.histogram(x_d, bins=self.bins[i], weights=x_d)
+			else:
+				hist = np.histogram(x_d, bins=self.bins[i])
 			
 			new_hist = (hist[0] / np.nanmax(hist[0]),
 					hist[1])
@@ -133,7 +142,7 @@ class _pyjoyplotter():
 
 
 def plot(data=None, x=None, y=None, hue=None, kind='line', 
-		offset=0.75, cmap='Dark2', smooth=1, order=None, bins=10):
+		offset=0.75, cmap='Dark2', smooth=1, order=None, bins=10, weights=None):
 	'''
 	Create 'Joy Plot'
 	Args:
@@ -149,12 +158,13 @@ def plot(data=None, x=None, y=None, hue=None, kind='line',
 		order (list): order of categories - top to bottom
 		bins (int/list): bins if using hist. int for all hists to have same bins
 				 else list of bin no. for each hist
+		weights (boolean/list): should the histogram be weighted?
 
 	'''	
 
 
 	plotter = _pyjoyplotter(data=data, x=x, y=y, hue=hue,
 			offset=offset, cmap=cmap, smooth=smooth, kind=kind,
-			order=order, bins=bins)
+			order=order, bins=bins, weights=weights)
 	return plotter._plot()	
 	
