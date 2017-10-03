@@ -26,8 +26,8 @@ class _pyjoyplotter():
 		self.n_c = len(self.colours)
 		self.smooth = smooth
 		self.kind = kind
-		self.bins = reversed(bins)
-		self.weights = reversed(weights)
+		self.bins = bins
+		self.weights = weights
 
 	
 	def _get_colours(self, cmap):
@@ -92,8 +92,12 @@ class _pyjoyplotter():
 		ax = plt.axes(frameon=False)
 		if type(self.bins) != list:
 			self.bins = self.n * [self.bins]
+		else:
+			self.bins = list(reversed(self.bins))
 		if type(self.weights) != list:
 			self.weights = self.n * [self.weights]
+		else:
+			self.weights = list(reversed(self.weights))
 		
 		for i, c in enumerate(self.categories):
 		
