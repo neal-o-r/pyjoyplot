@@ -19,7 +19,7 @@ class _pyjoyplotter():
 		self.x = x
 		self.y = y
 		self.hue = hue
-		self.categories = set(data[hue]) if order == None else order
+		self.categories = list(set(data[hue])) if order == None else order
 		self.n = len(self.categories)
 		self.offset = offset
 		self.colours = self._get_colours(cmap)
