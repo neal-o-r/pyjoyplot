@@ -27,6 +27,7 @@ class _pyjoyplotter():
 		self.smooth = smooth
 		self.kind = kind
 		self.bins = bins
+		self.weights = weights
 
 	
 	def _get_colours(self, cmap):
@@ -103,7 +104,7 @@ class _pyjoyplotter():
 			x_d = x_d[~np.isnan(x_d)]
 
 			col = self.colours[i % self.n_c]
-			if weights is not None:
+			if weights[i]:
 				hist = np.histogram(x_d, bins=self.bins[i], weights=x_d)
 			else:
 				hist = np.histogram(x_d, bins=self.bins[i])
@@ -136,7 +137,7 @@ class _pyjoyplotter():
 
 
 def plot(data=None, x=None, y=None, hue=None, kind='line', 
-		offset=0.75, cmap='Dark2', smooth=1, order=None, bins=10):
+		offset=0.75, cmap='Dark2', smooth=1, order=None, bins=10, weights=None):
 	'''
 	Create 'Joy Plot'
 	Args:
@@ -152,12 +153,13 @@ def plot(data=None, x=None, y=None, hue=None, kind='line',
 		order (list): order of categories - top to bottom
 		bins (int/list): bins if using hist. int for all hists to have same bins
 				 else list of bin no. for each hist
+		weights (boolean/list): should the histogram be weighted?
 
 	'''	
 
 
 	plotter = _pyjoyplotter(data=data, x=x, y=y, hue=hue,
 			offset=offset, cmap=cmap, smooth=smooth, kind=kind,
-			order=order, bins=bins)
+			order=order, bins=bins, weights=weights)
 	return plotter._plot()	
 	
