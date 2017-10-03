@@ -105,7 +105,7 @@ class _pyjoyplotter():
 			x_d = x_d[~np.isnan(x_d)]
 
 			col = self.colours[i % self.n_c]
-			if weights[i]:
+			if self.weights[i]:
 				hist = np.histogram(x_d, bins=self.bins[i], weights=x_d)
 			else:
 				hist = np.histogram(x_d, bins=self.bins[i])
