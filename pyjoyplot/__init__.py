@@ -26,8 +26,8 @@ class _pyjoyplotter():
 		self.n_c = len(self.colours)
 		self.smooth = smooth
 		self.kind = kind
-		self.bins = bins
-		self.weights = weights
+		self.bins = reversed(bins)
+		self.weights = reversed(weights)
 
 	
 	def _get_colours(self, cmap):
