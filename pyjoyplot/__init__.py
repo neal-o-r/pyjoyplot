@@ -103,7 +103,10 @@ class _pyjoyplotter():
 			x_d = x_d[~np.isnan(x_d)]
 
 			col = self.colours[i % self.n_c]
-			hist = np.histogram(x_d, bins=self.bins[i], weights=self.weights[i])
+			if weights is not None:
+				hist = np.histogram(x_d, bins=self.bins[i], weights=x_d)
+			else:
+				hist = np.histogram(x_d, bins=self.bins[i])
 			
 			new_hist = (hist[0] / np.nanmax(hist[0]),
 					hist[1])
