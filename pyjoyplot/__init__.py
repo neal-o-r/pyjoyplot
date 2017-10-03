@@ -6,7 +6,7 @@ import numpy as np
 class _pyjoyplotter():
 
 	def __init__(self, data=None, x=None, y=None, hue=None, kind=None,
-		offset=0.75, cmap='Dark2', smooth=1, order=None, bins=None):
+		offset=0.75, cmap='Dark2', smooth=1, order=None, bins=None, weights=None):
 		' initialise class, check args'
 		assert (kind == 'line') or (kind == 'hist')
 		assert type(data) == pd.core.frame.DataFrame 
@@ -103,7 +103,7 @@ class _pyjoyplotter():
 			x_d = x_d[~np.isnan(x_d)]
 
 			col = self.colours[i % self.n_c]
-			hist = np.histogram(x_d, bins=self.bins[i])
+			hist = np.histogram(x_d, bins=self.bins[i], weights=self.weights[i])
 			
 			new_hist = (hist[0] / np.nanmax(hist[0]),
 					hist[1])
