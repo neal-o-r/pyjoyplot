@@ -106,7 +106,7 @@ class _pyjoyplotter():
 				self.data[self.hue] == c]
 
 			x_d = df.loc[df[self.hue] == c, self.x].values
-			x_d = x_d[~np.isnan(x_d)]
+			x_d = x_d[~np.isnan(x_d.astype("float"))]
 
 			col = self.colours[i % self.n_c]
 			if self.weights[i]:
