@@ -6,7 +6,7 @@ import numpy as np
 class _pyjoyplotter():
 
 	def __init__(self, data=None, x=None, y=None, hue=None, kind=None,
-		offset=0.75, cmap='Dark2', smooth=1, order=None, bins=None, weights=None):
+		offset=0.75, cmap='Dark2', smooth=1, order=None, bins=None, weights=None, figsize=None):
 		' initialise class, check args'
 		assert (kind == 'line') or (kind == 'hist')
 		assert type(data) == pd.core.frame.DataFrame 
@@ -45,7 +45,7 @@ class _pyjoyplotter():
 
 	def _line_plot(self):
 	
-		fig = plt.figure()
+		fig = plt.figure(figsize=figsize)
 		ax = plt.axes(frameon=False)
 
 		self.data = self.data.sort_values(by=self.x)
@@ -88,7 +88,7 @@ class _pyjoyplotter():
 
 	def _hist_plot(self):
 
-		fig = plt.figure()
+		fig = plt.figure(figsize=figsize)
 		ax = plt.axes(frameon=False)
 		if type(self.bins) != list:
 			self.bins = self.n * [self.bins]
@@ -142,10 +142,9 @@ class _pyjoyplotter():
 
 
 def plot(data=None, x=None, y=None, hue=None, kind='line', 
-		offset=0.75, cmap='Dark2', smooth=1, order=None, bins=10, weights=None):
+		offset=0.75, cmap='Dark2', smooth=1, order=None, bins=10, weights=None, figsize=None):
 	'''
-	Create 'Joy Plot'
-	Args:
+	Create 'Joy Plot':
 		data (pd.DataFrame): DataFrame holding all data
 		x (str)  : DataFrame column to use as x value
 		y (str)  : DataFrame column to use as y values 
@@ -165,6 +164,6 @@ def plot(data=None, x=None, y=None, hue=None, kind='line',
 
 	plotter = _pyjoyplotter(data=data, x=x, y=y, hue=hue,
 			offset=offset, cmap=cmap, smooth=smooth, kind=kind,
-			order=order, bins=bins, weights=weights)
+			order=order, bins=bins, weights=weights, figsize=figsize)
 	return plotter._plot()	
 	
