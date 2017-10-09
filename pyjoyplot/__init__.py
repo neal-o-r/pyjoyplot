@@ -89,7 +89,7 @@ class _pyjoyplotter():
 
     def _hist_plot(self):
 
-        fig = plt.figure(figsize=figsize)
+        fig = plt.figure(figsize=self.figsize)
         ax = plt.axes(frameon=False)
         if type(self.bins) != list:
             self.bins = self.n * [self.bins]
