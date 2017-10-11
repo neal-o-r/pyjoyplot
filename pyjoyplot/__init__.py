@@ -118,13 +118,13 @@ class _pyjoyplotter():
             new_hist = (hist[0] / np.nanmax(hist[0]),
                     hist[1])
 
-            width = (new_hist[1] - np.roll(new_hist[1], 1))[1:]         
+            width = (new_hist[1] - np.roll(new_hist[1], 1))[1:]  
             bot = i * self.offset
-            left = new_hist[1][:-1] - width / 2
+            left = new_hist[1][:-1]
             height = new_hist[0]    
             
             plt.bar(left, height, 
-                width=width, bottom=bot, alpha=0.8)
+                    width=width, bottom=bot, alpha=0.8, align='edge')
 
         plt.xlabel(self.x)
         ax.set_yticks([self.offset*i for i in range(self.n)[::-1]])
